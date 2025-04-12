@@ -8,7 +8,6 @@ TITLE = "Gallaga Game!"
 RED = "red"
 BLACK = "black"
 
-# Create the player
 battleship = Actor("battleship")
 battleship.pos = (WIDTH / 2,HEIGHT - 60)
 
@@ -78,6 +77,42 @@ def update():
                 game_over()
 
     if len(enemies) < 8:
+        enemy = Actor("cat")
+        enemy.x = random.randint(0,WIDTH - 80)
+        enemy.y = random.randint(-100,0)
+        enemies.append(enemy)
+
+def draw():
+    if lives > 0:
+        screen.clear()
+        screen.fill("blue")
+        battleship.draw()
+        for enemy in enemies:
+            enemy.draw()
+        for ball in cannonballs:
+            ball.draw()
+        display_score()
+    else:
+        game_over()
+
+def game_over():
+    is_game_over = True
+    screen.clear()
+    screen.fill("orange")
+    screen.draw.text("Game MEOW OVER!",(WIDTH // 2 - 180,HEIGHT // 2 - 40),fontsize = 60,color = "White")
+    screen.draw.text(f"meow!Final Score:{score}",(WIDTH // 2 - 180,HEIGHT // 2 + 15),fontsize = 45,color = "White")
+    screen.draw.text("Press SPACE to play again!meow",(WIDTH // 2 - 180,HEIGHT // 2 + 60),fontsize = 45,color = "White")
+    
+    if keyboard.SPACE:
+        restart_game()
+
+def restart_game():
+    global bullets, lives, score, enemies
+    score = 0
+    lives = 3
+    cannonballs = []
+    enemies = []
+    for i in range(8):
         enemy = Actor("cat")
         enemy.x = random.randint(0,WIDTH - 80)
         enemy.y = random.randint(-100,0)
